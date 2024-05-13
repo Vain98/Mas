@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Passenger List</title>
+    <link rel="stylesheet" href="/css/passengers.css">
+    <style>
+
+    </style>
+</head>
+<body>
+
+<button onclick="goBack()" class="go-back-btn">Go Back</button>
+
+<div class="container">
+    <h1>Passenger List</h1>
+
+    <button id="addPassengerBtn" class="addPassenger-btn">Add New Passenger</button>
+    <button id="deletePassengerBtn" class="delete-passenger-btn">Delete Passenger</button>
+
+    <div id="addPassengerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="modal-title">Add New Passenger</h2>
+            <form action="/addPassenger" method="post">
+                <div class="form-group">-
+                    <input type="text" name="full_name" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <select name="loyaltyType">
+                        <option value="NORMAL">Normal</option>
+                        <option value="BUSINESS">Business</option>
+                        <option value="BUSINESSEXTRA">Business Extra</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><input type="checkbox" name="specialNeeds"> Special Needs</label>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="luggageItems" placeholder="Luggage Items">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="modal-button">Add Passenger</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="deletePassengerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeDeleteModal">&times;</span>
+            <h2 class="modal-title">Delete Passenger</h2>
+            <form action="/deletePassenger" method="post">
+                <div class="form-group">
+                    <select name="passengerId" required>
+                        <option value="">Select a Passenger</option>
+                        <option th:each="passenger : ${passengers}"
+                                th:value="${passenger.passengerId}"
+                                th:text="${passenger.full_name}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="modal-button">Delete Passenger</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:if="${message}" th:text="${message}"></div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Loyalty Type</th>
+            <th>Special Needs</th>
+            <th>Luggage Items</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="passenger : ${passengers}">
+            <td th:text="${passenger.passengerId}"></td>
+            <td><a th:href="@{/passengerDetails(id=${passenger.passengerId})}" th:text="${passenger.full_name}"></a></td>
+            <td th:text="${passenger.loyaltyType}"></td>
+            <td th:text="${passenger.speacialneeds ? 'Yes' : 'No'}"></td>
+            <td>
+                <ul>
+                    <li th:each="item : ${passenger.luggageItems}" th:text="${item}"></li>
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    var modal = document.getElementById("addPassengerModal");
+    var btn = document.getElementById("addPassengerBtn");
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+<script>
+    var addModal = document.getElementById("addPassengerModal");
+    var addBtn = document.getElementById("addPassengerBtn");
+    var spanAdd = document.getElementsByClassName("close")[0];
+
+    addBtn.onclick = function() { addModal.style.display = "block"; }
+    spanAdd.onclick = function() { addModal.style.display = "none"; }
+
+    var deleteModal = document.getElementById("deletePassengerModal");
+    var deleteBtn = document.getElementById("deletePassengerBtn");
+    var spanDelete = document.getElementById("closeDeleteModal");
+
+    deleteBtn.onclick = function() { deleteModal.style.display = "block"; }
+    spanDelete.onclick = function() { deleteModal.style.display = "none"; }
+
+    window.onclick = function(event) {
+        if (event.target == addModal) { addModal.style.display = "none"; }
+        if (event.target == deleteModal) { deleteModal.style.display = "none"; }
+    }
+</script>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Maintenance Records</title>
+  <link rel="stylesheet" href="/css/maintenance.css">
+</head>
+<body>
+<button onclick="goBack()" class="go-back-btn">Go Back</button>
+<div class="container">
+  <h1>Maintenance Records for Aircraft ID: <span th:text="${aircraftId}"></span></h1>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Maintenance ID</th>
+      <th>Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="maintenance : ${maintenances}">
+      <td th:text="${maintenance.maintenanceId}"></td>
+      <td th:text="${maintenance.maintanceDate}"></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <a href="/aircraft">Back to Aircraft List</a>
+</div>
+
+</body>
+</html>
+<script>
+  function goBack() {
+    window.history.back();
+  }
+</script>

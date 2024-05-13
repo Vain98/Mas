@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flights</title>
+    <link rel="stylesheet" href="/css/flights.css">
+</head>
+<body>
+<button onclick="goBack()" class="go-back-btn">Go Back</button>
+
+<div class="container">
+    <h1>Flight List</h1>
+
+    <form action="/addFlights" method="post">
+
+        <select name="flightType" required>
+            <option value="InternationalFlight">International Flight</option>
+            <option value="LocalFlight">Local Flight</option>
+        </select>
+        <input type="text" name="origin" placeholder="Origin" required>
+        <input type="text" name="destination" placeholder="Destination" required>
+        <input type="datetime-local" name="departureTime" required>
+        <input type="datetime-local" name="arrivalTime" required>
+        <button type="submit" class="addFlight-btn">Add Flight</button>
+    </form>
+
+    <form action="/deleteFlights" method="post">
+        <select name="flightId" required>
+            <option value="">Select a Flight to Delete</option>
+            <option th:each="flight : ${flights}" th:value="${flight.flightId}" th:text="${flight.flightId}"></option>
+        </select>
+        <button type="submit" class="delete-flight-btn">Delete Flight</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Flight ID</th>
+            <th>Departure Time</th>
+            <th>Arrival Time</th>
+            <th>Origin</th>
+            <th>Destination</th>
+            <th>Type</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="flight : ${flights}">
+            <td th:text="${flight.flightId}"></td>
+            <td th:text="${flight.departureTime}"></td>
+            <td th:text="${flight.arrivalTime}"></td>
+            <td th:text="${flight.origin}"></td>
+            <td th:text="${flight.destination}"></td>
+            <td th:text="${flight.class.simpleName}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Passenger Details</title>
+  <link rel="stylesheet" href="/css/passengerDetails.css">
+</head>
+<body>
+<button onclick="goBack()" class="go-back-btn">Go Back</button>
+<div class="container">
+  <h1>Passenger Details</h1>
+
+
+  <p>ID: <span th:text="${passenger.passengerId}"></span></p>
+  <p>Full Name: <span th:text="${passenger.full_name}"></span></p>
+  <p>Loyalty Type: <span th:text="${passenger.loyaltyType}"></span></p>
+  <p>Special Needs: <span th:text="${passenger.speacialneeds ? 'Yes' : 'No'}"></span></p>
+
+  <h2>Tickets</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Ticket Number</th>
+      <th>Flight</th>
+      <th>Seat Number</th>
+      <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="ticket : ${tickets}">
+      <td th:text="${ticket.ticket_number}"></td>
+      <td th:text="${ticket.flight.flightId}"></td>
+      <td th:text="${ticket.seatNumber}"></td>
+      <td th:text="${ticket.price}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
+<script>
+  function goBack() {
+    window.history.back();
+  }
+</script>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Aircraft List</title>
+    <link rel="stylesheet" href="/css/aircraft.css">
+</head>
+<body>
+<button onclick="goBack()" class="go-back-btn">Go Back</button>
+
+<div class="container">
+    <h1>Aircraft List</h1>
+
+    <div th:if="${message}" th:text="${message}"></div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Model</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="aircraft : ${aircrafts}">
+            <td th:text="${aircraft.aircraftId}"></td>
+            <td th:text="${aircraft.model}"></td>
+            <td>
+                <a th:href="@{/aircraft/{id}/maintenance(id=${aircraft.aircraftId})}" class="view-maintenance-btn">View Maintenance</a>
+                <form th:action="@{/deleteAircraft(aircraftId=${aircraft.aircraftId})}" method="post">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+
+
+</body>
+</html>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
